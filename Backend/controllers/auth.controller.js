@@ -34,7 +34,8 @@ async function registerController(req, res) {
 
         res.status(201).json({
             "msg": "user registration successful",
-            "success": true
+            "success": true,
+            user
         });
 
     } catch (error) {
@@ -85,7 +86,8 @@ async function loginController(req, res) {
 
         res.status(200).json({
             "msg": "user Login successful",
-            "success": true
+            "success": true,
+            user
         });
 
     } catch (error) {
@@ -112,8 +114,34 @@ async function logoutController(req, res) {
     });
 }
 
+async function getMeController(req, res) {
+    try {
+        const user = await userModel.findById(req.user.userId);
+
+        if (!user) {
+            return res.status(404).json({
+                "msg": "User not exist",
+                "success": false
+            });
+        }
+
+        res.status(200).json({
+            "msg": "user retrived successful",
+            "success": true,
+            user
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            msg: "Internal server error",
+            success: false
+        });
+    }
+}
+
 module.exports = {
     registerController,
     loginController,
-    logoutController
+    logoutController,
+    getMeController
 }

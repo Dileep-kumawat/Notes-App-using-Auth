@@ -10,13 +10,15 @@ api.interceptors.response.use(
     (error) => {
         if (error.response) {
             return Promise.reject({
-                msg: error.response.data.msg || "Something went wrong",
+                msg: error.response.data?.msg || "Something went wrong",
+                status: error.response.status,
                 success: false
             });
         }
 
         return Promise.reject({
             msg: "Network error",
+            status: 0,
             success: false
         });
     }
@@ -43,6 +45,12 @@ export async function login({ email, password }) {
 
 export async function logout() {
     const res = await api.get("/api/auth/logout");
+
+    return res.data;
+}
+
+export async function getMe() {
+    const res = await api.get("/api/auth/get-me");
 
     return res.data;
 }

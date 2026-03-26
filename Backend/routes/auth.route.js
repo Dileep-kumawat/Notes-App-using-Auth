@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerController, loginController, logoutController } = require("../controllers/auth.controller");
+const { registerController, loginController, logoutController, getMeController } = require("../controllers/auth.controller");
 const { registerValidation, validate, loginValidation } = require("../validators/auth.validator");
 const { isAuthenticated } = require("../middlewares/auth.middleware");
 
@@ -27,5 +27,12 @@ authRouter.post("/login", loginValidation, validate, loginController);
  * @access private
  */
 authRouter.get("/logout", isAuthenticated, logoutController);
+
+/**
+ * @route /api/auth/get-me
+ * @description Get the user details
+ * @access private
+ */
+authRouter.get("/get-me", isAuthenticated, getMeController);
 
 module.exports = authRouter;
