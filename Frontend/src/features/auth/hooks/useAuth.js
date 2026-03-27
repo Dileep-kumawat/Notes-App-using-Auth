@@ -53,7 +53,7 @@ export function useAuth() {
             dispatch(setLoading(false));
         }
     }
-
+    
     async function handleGetMe() {
         dispatch(setLoading(true));
         dispatch(setError(null));
@@ -63,7 +63,7 @@ export function useAuth() {
             dispatch(setUser(res.user));
             return { success: true };
         } catch (error) {
-            handleError(error);
+            dispatch(setUser(null));
             return { success: false };
         } finally {
             dispatch(setLoading(false));
