@@ -75,9 +75,12 @@ async function updateController(req, res) {
         const note = await noteModel.findOneAndUpdate({
             _id: id,
             userId: req.user.userId
-        },{
+        }, {
             title,
             description
+        }, {
+            returnDocument: "after",
+            runValidators: true
         });
 
         if (!note) {
@@ -103,7 +106,7 @@ async function updateController(req, res) {
 async function getController(req, res) {
     try {
         const notes = await noteModel.find({
-            userId : req.user.userId
+            userId: req.user.userId
         });
 
         return res.status(200).json({
